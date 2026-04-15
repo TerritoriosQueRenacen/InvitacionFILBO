@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invitacion Lanzamiento Territorios que renacen</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="stage" onclick="advance()">
+      <div class="title-top">
+        <span class="t1" id="saludo">Estimado</span>
+        <span class="t2" id="nombre">Nombre Aquí</span>
+        <span class="t3" id="cargo">Cargo Aquí</span>
+      </div>
+      <div id="scene">
+        <div id="scene-inner">
+          <!-- ═══ SOBRE ═══ -->
+          <div class="env">
+            <div class="env-body"></div>
+
+            <!-- 👇 LOGO AHORA AQUÍ -->
+            <img class="env-logo" src="assets/logos.png" alt="logos" />
+
+            <div class="env-tri-l"></div>
+            <div class="env-tri-r"></div>
+            <div class="env-btm"></div>
+            <div class="env-flap"><div class="env-flap-face"></div></div>
+          </div>
+
+          <!-- ═══ CARTA ═══ -->
+          <div class="letter" id="letter">
+            <img src="assets/invitacion filbo 2026.jpg.jpeg" alt="carta" />
+          </div>
+          <!-- fin carta -->
+        </div>
+      </div>
+      <!-- fin scene -->
+      <img
+        class="logo-bottom"
+        src="assets/LogoFinalMontesdeMaria.png"
+        alt="logo"
+      />
+      <div id="hint">Toca el sobre para abrir</div>
+    </div>
+
+    <script>
+      const stage = document.getElementById("stage");
+      const letter = document.getElementById("letter");
+      let step = 0;
+
+      const hints = [
+        "Toca el sobre para abrir",
+        "Toca para sacar la carta",
+        "",
+      ];
+
+      function advance() {
+        step++;
+
+        if (step === 1) {
+          stage.classList.add("s-open");
+        }
+
+        if (step === 2) {
+          stage.classList.add("s-risen");
+
+          letter.style.bottom = "40px";
+
+          setTimeout(() => {
+            stage.appendChild(letter);
+            letter.classList.add("centered");
+          }, 400);
+        }
+
+        const h = document.getElementById("hint");
+        h.style.opacity = step >= 3 ? "0" : "1";
+        h.textContent = hints[Math.min(step, hints.length - 1)];
+      }
+
+      // Leer parámetros de la URL
+      const params = new URLSearchParams(window.location.search);
+
+      const nombre = params.get("nombre");
+      const cargo = params.get("cargo");
+      const genero = params.get("genero"); // sr / sra
+
+      // Referencias
+      const saludoEl = document.getElementById("saludo");
+      const nombreEl = document.getElementById("nombre");
+      const cargoEl = document.getElementById("cargo");
+
+      // Lógica
+      if (genero === "sra") {
+        saludoEl.textContent = "Estimada";
+      } else {
+        saludoEl.textContent = "Estimado";
+      }
+
+      if (nombre) {
+        nombreEl.textContent =
+          (genero === "sra" ? "Sra. " : "Sr. ") + decodeURIComponent(nombre);
+      }
+
+      if (cargo) {
+        cargoEl.textContent = decodeURIComponent(cargo);
+      }
+
+      const invitados = [
+        {
+          nombre: "Juan Ricardo Rozo Obregón",
+          cargo: "Comandante de la Armada Nacional de Colombia",
+          genero: "sr",
+        },
+        {
+          nombre: "Beatriz Elena García Restrepo",
+          cargo: "Jefe Jefatura Juridica de la Armada Nacional",
+          genero: "sra",
+        },
+        {
+          nombre: "John Henry Ruiz Murcia",
+          cargo: "Jefe Jefatura Integral de Educacion Naval",
+          genero: "sr",
+        },
+        {
+          nombre: "Margarita Maria Miranda Guerrero",
+          cargo: "Director Direccion de Derechos Humanos DIH y genero Armada Nacional",
+          genero: "sra",
+        },
+        {
+          nombre: " ",
+          cargo: "  ",
+          genero: "  ",
+        },
+        {
+          nombre: " ",
+          cargo: "  ",
+          genero: "  ",
+        },
+        {
+          nombre: " ",
+          cargo: "  ",
+          genero: "  ",
+        },
+        {
+          nombre: " ",
+          cargo: "  ",
+          genero: "  ",
+        },
+        {
+          nombre: " ",
+          cargo: "  ",
+          genero: "  ",
+        },
+      ];
+
+      invitados.forEach((i) => {
+        const url = `index.html?nombre=${encodeURIComponent(i.nombre)}&cargo=${encodeURIComponent(i.cargo)}&genero=${i.genero}`;
+        console.log(url);
+      });
+    </script>
+  </body>
+</html>
